@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Calculator</title>
+  <title>Symbolic Calculator</title>
   <style>
     body {
-      background-color: #222;
       font-family: 'Gotham', sans-serif;
-      color: white;
+      color: #333;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -18,14 +17,20 @@
 
     .calculator {
       text-align: center;
-      background-color: #333;
-      border-radius: 20px;
+      background-color: #f5f5f5;
+      border-radius: 10px;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
 
-    #calculate {
-      background-color: #888;
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #3498db;
       color: white;
       border: none;
       padding: 10px 20px;
@@ -34,64 +39,52 @@
       transition: background-color 0.3s;
     }
 
-    #calculate:hover {
-      background-color: #3498db;
+    button:hover {
+      background-color: #2980b9;
     }
 
-    #loading {
-      display: none;
-      font-size: 20px;
-      margin-top: 10px;
-      animation: bounce 1s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    #answer {
-      display: none;
+    #result {
       font-size: 24px;
       margin-top: 20px;
-      animation: fade-in 0.5s;
-    }
-
-    @keyframes fade-in {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
   <div class="calculator">
-    <input type="text" id="expression" placeholder="Enter math expression">
+    <h1>Symbolic Calculator</h1>
+    <p>Supported symbols: +, -, *, /, ^ (exponent)</p>
+    <p>Use 'x' as a variable. Example: 2x^2 + 3x + 4</p>
+    <input type="text" id="expression" placeholder="Enter expression">
     <button id="calculate">Calculate</button>
-    <div id="loading">...</div>
-    <div id="answer"></div>
+    <div id="result"></div>
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const calculateButton = document.getElementById('calculate');
-      const loadingText = document.getElementById('loading');
-      const answerText = document.getElementById('answer');
+      const expressionInput = document.getElementById('expression');
+      const resultDiv = document.getElementById('result');
 
       calculateButton.addEventListener('click', function () {
-        loadingText.style.display = 'block';
-        answerText.style.display = 'none';
-
-        setTimeout(function () {
-          loadingText.style.display = 'none';
-          answerText.textContent = calculate(); // Call your math calculation function here
-          answerText.style.display = 'block';
-        }, 2000); // Simulate delay for calculation
-
-        function calculate() {
-          // Perform your math calculation here
-          return '42'; // Replace with the actual calculated value
-        }
+        const expression = expressionInput.value;
+        const result = calculate(expression);
+        resultDiv.textContent = `Result: ${result}`;
       });
+
+      function calculate(expression) {
+        try {
+          // Replace 'x' with '*x' to handle multiplication of variable
+          const formattedExpression = expression.replace(/x/g, '*x');
+
+          // Use eval() to perform the calculation
+          const result = eval(formattedExpression);
+
+          return result;
+        } catch (error) {
+          return 'Error';
+        }
+      }
     });
   </script>
 </body>
 </html>
+
