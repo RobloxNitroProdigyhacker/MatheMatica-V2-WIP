@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fraction Calculator</title>
+  <title>Mathematica V2</title>
   <style>
     /* ... Your existing styles ... */
   </style>
 </head>
 <body>
   <div class="calculator">
-    <h1>Fraction Calculator</h1>
+    <h1>Mathematica V2</h1>
     <p>Supported symbols: +, -, *, /, ^ (exponent), | (fraction)</p>
     <p>Use 'x' as a variable. Example: 2x^2 + 3x + 4</p>
     <input type="text" id="expression" placeholder="Enter expression">
@@ -40,7 +40,7 @@
           const formattedExpression = expression.replace(/x/g, '*x');
           // Replace '|' with '/' to handle fractions
           const processedExpression = formattedExpression.replace(/\|/g, '/');
-
+          
           setTimeout(function () {
             const rawResult = eval(processedExpression);
             const result = simplifyFraction(rawResult);
