@@ -3,56 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Symbolic Calculator</title>
+  <title>Fraction Calculator</title>
   <style>
-    body {
-      font-family: 'Gotham', sans-serif;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .calculator {
-      text-align: center;
-      background-color: #f5f5f5;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-
-    button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #2980b9;
-    }
-
-    #result {
-      font-size: 24px;
-      margin-top: 20px;
-    }
+    /* ... Your existing styles ... */
   </style>
 </head>
 <body>
   <div class="calculator">
-    <h1>Symbolic Calculator</h1>
-    <p>Supported symbols: +, -, *, /, ^ (exponent)</p>
+    <h1>Fraction Calculator</h1>
+    <p>Supported symbols: +, -, *, /, ^ (exponent), | (fraction)</p>
     <p>Use 'x' as a variable. Example: 2x^2 + 3x + 4</p>
     <input type="text" id="expression" placeholder="Enter expression">
     <button id="calculate">Calculate</button>
@@ -74,17 +33,24 @@
         try {
           // Replace 'x' with '*x' to handle multiplication of variable
           const formattedExpression = expression.replace(/x/g, '*x');
-
+          // Replace '|' with '/' to handle fractions
+          const processedExpression = formattedExpression.replace(/\|/g, '/');
+          
           // Use eval() to perform the calculation
-          const result = eval(formattedExpression);
+          const result = eval(processedExpression);
 
-          return result;
+          return simplifyFraction(result);
         } catch (error) {
           return 'Error';
         }
+      }
+
+      function simplifyFraction(fraction) {
+        const gcd = (a, b) => (b ? gcd(b, a % b) : a);
+        const divisor = gcd(fraction.numerator, fraction.denominator);
+        return `${fraction.numerator / divisor}|${fraction.denominator / divisor}`;
       }
     });
   </script>
 </body>
 </html>
-
