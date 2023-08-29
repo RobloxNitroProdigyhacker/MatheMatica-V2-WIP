@@ -47,6 +47,18 @@
       background-color: #2980b9;
     }
 
+    .loading-dots {
+      display: none;
+      font-size: 24px;
+      margin-top: 10px;
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
     #result {
       font-size: 24px;
       margin-top: 20px;
@@ -62,16 +74,7 @@
     <p>Use 'x' as a variable. Example: 2x^2 + 3x + 4</p>
     <input type="text" id="expression" placeholder="Enter expression">
     <button id="calculate">Calculate</button>
-    <button id="sin">sin</button>
-    <button id="cos">cos</button>
-    <button id="tan">tan</button>
-    <button id="sqrt">√</button>
-    <button id="exp">x^2</button>
-    <button id="pi">π</button>
-    <button id="memory-plus">M+</button>
-    <button id="memory-minus">M-</button>
-    <button id="memory-recall">MR</button>
-    <button id="memory-clear">MC</button>
+    <div class="loading-dots">Loading...</div>
     <div id="result"></div>
   </div>
   <script>
@@ -79,62 +82,19 @@
       const calculateButton = document.getElementById('calculate');
       const expressionInput = document.getElementById('expression');
       const resultDiv = document.getElementById('result');
-      const sinButton = document.getElementById('sin');
-      const cosButton = document.getElementById('cos');
-      const tanButton = document.getElementById('tan');
-      const sqrtButton = document.getElementById('sqrt');
-      const expButton = document.getElementById('exp');
-      const piButton = document.getElementById('pi');
-      const memoryPlusButton = document.getElementById('memory-plus');
-      const memoryMinusButton = document.getElementById('memory-minus');
-      const memoryRecallButton = document.getElementById('memory-recall');
-      const memoryClearButton = document.getElementById('memory-clear');
+      const loadingDots = document.querySelector('.loading-dots');
 
       calculateButton.addEventListener('click', function () {
         const expression = expressionInput.value;
-        const result = calculate(expression);
-        resultDiv.textContent = `Result: ${result}`;
-        resultDiv.style.opacity = 1; // Show the result
-      });
+        loadingDots.style.display = 'inline'; // Show loading dots
+        resultDiv.style.opacity = 0; // Hide the result
 
-      sinButton.addEventListener('click', function () {
-        expressionInput.value += 'sin()';
-      });
-
-      cosButton.addEventListener('click', function () {
-        expressionInput.value += 'cos()';
-      });
-
-      tanButton.addEventListener('click', function () {
-        expressionInput.value += 'tan()';
-      });
-
-      sqrtButton.addEventListener('click', function () {
-        expressionInput.value += '√';
-      });
-
-      expButton.addEventListener('click', function () {
-        expressionInput.value += '^2';
-      });
-
-      piButton.addEventListener('click', function () {
-        expressionInput.value += 'π';
-      });
-
-      memoryPlusButton.addEventListener('click', function () {
-        // Implement memory addition
-      });
-
-      memoryMinusButton.addEventListener('click', function () {
-        // Implement memory subtraction
-      });
-
-      memoryRecallButton.addEventListener('click', function () {
-        // Implement memory recall
-      });
-
-      memoryClearButton.addEventListener('click', function () {
-        // Implement memory clear
+        setTimeout(function () {
+          const result = calculate(expression);
+          resultDiv.textContent = `Result: ${result}`;
+          resultDiv.style.opacity = 1; // Show the result
+          loadingDots.style.display = 'none'; // Hide loading dots
+        }, 2000); // Simulate delay for calculation
       });
 
       function calculate(expression) {
