@@ -5,7 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mathematica V2</title>
   <style>
-    /* ... Your existing styles ... */
+    body {
+      font-family: 'Gotham', sans-serif;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calculator {
+      text-align: center;
+      background-color: #f5f5f5;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    #loading {
+      font-size: 24px;
+      margin-top: 20px;
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    #result {
+      font-size: 24px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -15,73 +67,11 @@
     <p>Use 'x' as a variable. Example: 2x^2 + 3x + 4</p>
     <input type="text" id="expression" placeholder="Enter expression">
     <button id="calculate">Calculate</button>
-    <div id="loading">Calculating</div>
+    <div id="loading">Calculating...</div>
     <div id="result"></div>
   </div>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const calculateButton = document.getElementById('calculate');
-      const expressionInput = document.getElementById('expression');
-      const resultDiv = document.getElementById('result');
-      const loadingText = document.getElementById('loading');
-
-      calculateButton.addEventListener('click', function () {
-        const expression = expressionInput.value;
-        loadingText.textContent = 'Calculating';
-        loadingText.style.display = 'block';
-        resultDiv.style.display = 'none';
-
-        calculate(expression);
-      });
-
-      function calculate(expression) {
-        try {
-          // Replace 'x' with '*x' to handle multiplication of variable
-          const formattedExpression = expression.replace(/x/g, '*x');
-          // Replace '|' with '/' to handle fractions
-          const processedExpression = formattedExpression.replace(/\|/g, '/');
-          
-          setTimeout(function () {
-            const rawResult = eval(processedExpression);
-            const result = simplifyFraction(rawResult);
-
-            loadingText.style.display = 'none';
-            resultDiv.textContent = `Result: ${result}`;
-            resultDiv.style.display = 'block';
-          }, 2000); // Simulate delay for calculation
-        } catch (error) {
-          loadingText.style.display = 'none';
-          resultDiv.textContent = 'Error';
-          resultDiv.style.display = 'block';
-        }
-      }
-
-      // Simplify fraction
-      function simplifyFraction(result) {
-        if (result instanceof Array && result.length === 2) {
-          const [numerator, denominator] = result;
-          const gcdValue = gcd(numerator, denominator);
-          const simplifiedNumerator = numerator / gcdValue;
-          const simplifiedDenominator = denominator / gcdValue;
-
-          if (simplifiedDenominator === 1) {
-            return simplifiedNumerator;
-          } else {
-            return `${simplifiedNumerator} / ${simplifiedDenominator}`;
-          }
-        } else {
-          return result;
-        }
-      }
-
-      // Greatest common divisor calculation
-      function gcd(a, b) {
-        if (b === 0) {
-          return a;
-        }
-        return gcd(b, a % b);
-      }
-    });
+    // ... Your JavaScript code ...
   </script>
 </body>
 </html>
