@@ -47,18 +47,6 @@
       background-color: #2980b9;
     }
 
-    .loading-dots {
-      display: none;
-      font-size: 24px;
-      margin-top: 10px;
-      animation: bounce 1s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
     #result {
       font-size: 24px;
       margin-top: 20px;
@@ -70,11 +58,13 @@
 <body>
   <div class="calculator">
     <h1>Mathematica V2</h1>
-    <p>Supported symbols: +, -, *, /, ^ (exponent), | (fraction)</p>
-    <p>Use 'x' as a variable. Example: 2x^2 + 3x + 4</p>
+    <p>Supported symbols: +, -, *, /, ^ (exponent)</p>
     <input type="text" id="expression" placeholder="Enter expression">
     <button id="calculate">Calculate</button>
-    <div class="loading-dots">Loading...</div>
+    <button id="sine">sin</button>
+    <button id="cosine">cos</button>
+    <button id="tangent">tan</button>
+    <button id="squareRoot">√</button>
     <div id="result"></div>
   </div>
   <script>
@@ -82,26 +72,22 @@
       const calculateButton = document.getElementById('calculate');
       const expressionInput = document.getElementById('expression');
       const resultDiv = document.getElementById('result');
-      const loadingDots = document.querySelector('.loading-dots');
 
       calculateButton.addEventListener('click', function () {
         const expression = expressionInput.value;
-        loadingDots.style.display = 'inline'; // Show loading dots
-        resultDiv.style.opacity = 0; // Hide the result
-
-        setTimeout(function () {
-          const result = calculate(expression);
-          resultDiv.textContent = `Result: ${result}`;
-          resultDiv.style.opacity = 1; // Show the result
-          loadingDots.style.display = 'none'; // Hide loading dots
-        }, 2000); // Simulate delay for calculation
+        const result = calculate(expression);
+        resultDiv.textContent = `Result: ${result}`;
+        resultDiv.style.opacity = 1; // Show the result
       });
 
+      // Define your calculation logic here
       function calculate(expression) {
-        // ... Your calculation logic ...
-        // Simulate a delay before returning the result
-        const simulatedResult = '3/4'; // Replace with the actual result
-        return simulatedResult;
+        try {
+          const result = eval(expression);
+          return result;
+        } catch (error) {
+          return 'Error';
+        }
       }
     });
   </script>
